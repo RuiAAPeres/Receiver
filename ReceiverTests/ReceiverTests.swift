@@ -72,4 +72,13 @@ class ReceiverTests: XCTestCase {
 
         waitForExpectations(timeout: 1, handler: nil)
     }
+
+    func test_SendLastValue() {
+        let (transmitter, receiver) = Receiver<Int>.make(with: .sendLastValue)
+        transmitter.broadcast(1)
+
+        receiver.listen { wave in
+            XCTAssertTrue(wave == 1)
+        }
+    }
 }

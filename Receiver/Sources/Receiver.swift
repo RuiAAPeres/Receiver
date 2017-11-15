@@ -74,8 +74,8 @@ public extension Receiver {
             self.receiver = receiver
         }
 
-        public func broadcast(_ event: Wave) {
-            receiver?.currentValue = event
+        public func broadcast(_ wave: Wave) {
+            receiver?.currentValue = wave
         }
     }
 }
