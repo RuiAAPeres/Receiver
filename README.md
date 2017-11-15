@@ -53,11 +53,11 @@ transmitter.broadcast(1)
 
 #### Initializer. 🌳
 
-The `make` method, follows the same approach used in ReactiveSwift, with `pipe`. Since one only makes senses with the other, it's logical for them to be created together within the same API. 
+The `make` method, follows the same approach used in ReactiveSwift, with `pipe`. Since a `receiver` only makes sense with a `transmitter`, it's only logic for them to be created together. 
 
 #### Separation between the reader and the writer. ⬆️ ⬇️
 
-A lot of libs have the reader and the writer bundled within the same entity. For the purposes and use cases of this lib, it makes sense to have these concerns separated. It's a bit like a `UITableView` and a `UITableViewDataSource`: one fuels the other, so it might be better for them to split into two different entities. 
+A lot of libs have the reader and the writer bundled within the same entity. For the purposes and use cases of this lib, it makes sense to have these concerns separated. It's a bit like a `UITableView` and a `UITableViewDataSource`: one fuels the other, so it might be better for them to be split into two different entities. 
 
 #### `sendLastValue` and `onlyNewValues` 🔥 ❄️
 
