@@ -102,3 +102,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 ```
+
+Similar to the `ApplicationLifecycle`, the same approach could be used for MVVM:
+
+
+```swift
+class MyViewController: UIViewController {
+    private let viewModel: MyViewModel
+    private let transmitter: Receiver<UILifecycle>.Transmitter
+    
+    init(viewModel: MyViewModel, transmitter: Receiver<UILifecycle>.Transmitter) {
+        self.viewModel = viewModel
+        self.transmitter = transmitter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    override func viewDidLoad() {
+        super.viewdDidLoad() 
+        transmitter.broadcast(.viewDidLoad)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated) 
+        transmitter.broadcast(.viewDidAppear)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated) 
+        transmitter.broadcast(.viewDidAppear)
+    }
+}
+```
+
+The nice part is that the `UIViewController` is never aware of the `receiver`, as it should be. ✨ 
+
+At initialization time:
+
+```swift
+let (transmitter, receiver) = Receiver<UIViewControllerLifecycle>.make()
+let viewModel = MyViewModel(with: receiver)
+let viewController = MyViewController(viewModel: viewModel, transmitter: transmitter)
+```
