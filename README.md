@@ -49,7 +49,7 @@ This is how you send events:
 transmitter.broadcast(1)
 ```
 
-### Opiniated, in what way? 🤓
+### Opinionated, in what way? 🤓
 
 #### Initializer. 🌳
 
