@@ -27,7 +27,7 @@ Let's begin with the basics. **There are three methods in total**. Yup, that's r
 
 #### 1. Creating the Receiver
 
-```
+```swift
 let (transmitter, receiver) = Receiver<Int>.make()
 ```
 
@@ -37,7 +37,7 @@ A `receiver` can never be created without an associated `transmitter` (what good
 
 This is how you observe events:
 
-```
+```swift
 receiver.listen { wave in print("Can I haz \(wave) cheezburger. 🐈") }
 ```
 
@@ -45,7 +45,7 @@ receiver.listen { wave in print("Can I haz \(wave) cheezburger. 🐈") }
 
 This is how you send events:
 
-```
+```swift
 transmitter.broadcast(1)
 ```
 
