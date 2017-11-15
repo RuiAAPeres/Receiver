@@ -7,10 +7,10 @@
 
 ---
 
-As a [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) user myself, most of time, it's difficult to convince someone to just simply start using it. The reality is that most codebases are not suitable to just adopt it:
+As a [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) user myself, most of time, it's difficult to convince someone to just simply start using it. The reality, for better or worse, is that most projects/teams are not ready to adopt it:
 
-1. Fear of a big dependency
-2. The learning curve
+1. Fear of adding a big dependency.
+2. The learning curve.
 3. Adapting the current codebase to a FRP mindset/approach.
 
 Nevertheless, a precious pattern can still be used, even without such an awesome lib like [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift). 😖
@@ -48,6 +48,21 @@ This is how you send events:
 ```swift
 transmitter.broadcast(1)
 ```
+
+### Opiniated, in what way? 🤓
+
+#### Initializer. 🌳
+
+The `make` method, follows the same approach used in ReactiveSwift, with `pipe`. Since one only makes senses with the other, it's logical for them to be created together within the same API. 
+
+#### Separation between the reader and the writer. ⬆️ ⬇️
+
+A lot of libs have the reader and the writter bundled within the same entity. For the purposes and use cases of this lib, it makes sense to have these concerns separated. It's a bit like a `UITableView` and a `UITableViewDataSource`: one fuels the other, so it might be better for them to split into two different entities. 
+
+#### `sendLastValue` and `onlyNewValues` 🔥 ❄️
+
+If you are familiar with FRP, you must have heard about [cold and hot semantics](http://codeplease.io/2017/10/15/ras-s1e3-3/). `Receiver` can't really provide cold semantics, but it can provide something a bit more unusual called "warm" semantics. A "warm" `Receiver`, is a hot one, but provides the last value sent.
+
 
 ### Ok, so why would I use this? 🤷‍♀️
 
