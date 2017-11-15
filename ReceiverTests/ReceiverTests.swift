@@ -3,7 +3,7 @@ import XCTest
 
 class ReceiverTests: XCTestCase {
 
-    func test_OneListener_OneSender() {
+    func test_OneListener() {
         let (transmitter, receiver) = Receiver<Int>.make()
         var called = 0
 
@@ -16,7 +16,7 @@ class ReceiverTests: XCTestCase {
         XCTAssertTrue(called == 1)
     }
 
-    func test_MultipleListeners_OneSender() {
+    func test_MultipleListeners() {
         let (transmitter, receiver) = Receiver<Int>.make()
         var called = 0
 
@@ -32,5 +32,44 @@ class ReceiverTests: XCTestCase {
 
         transmitter.broadcast(1)
         XCTAssertTrue(called == 10)
+    }
+
+    func test_Multithread_Fun() {
+        let expect = expectation(description: "fun")
+        let (transmitter, receiver) = Receiver<Int>.make()
+        var called = 0
+
+        let oneQueue = DispatchQueue(label: "oneQueue")
+        let twoQueues = DispatchQueue(label: "twoQueues")
+        let threeQueues = DispatchQueue(label: "threeQueues")
+        let fourQueues = DispatchQueue(label: "fourQueues")
+
+        for _ in 1...5 {
+            receiver.listen { wave in
+                called = called + 1
+            }
+        }
+
+        for _ in 1...100 {
+            oneQueue.async {
+                transmitter.broadcast(1)
+            }
+            twoQueues.async {
+                transmitter.broadcast(2)
+            }
+            threeQueues.async {
+                transmitter.broadcast(3)
+            }
+            fourQueues.async {
+                transmitter.broadcast(4)
+            }
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+            XCTAssert(called == 2000)
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: 1, handler: nil)
     }
 }
