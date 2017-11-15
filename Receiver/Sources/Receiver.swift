@@ -12,7 +12,7 @@ public class Receiver<Wave>: Receivable {
 
     public typealias Handler = (Wave) -> Void
 
-    private let _currentValue: Atomic<Wave?>
+    private let _currentValue = Atomic<Wave?>(nil)
     private let strategy: Strategy
     private let handlers: Atomic<[Handler]>
 
@@ -33,16 +33,14 @@ public class Receiver<Wave>: Receivable {
         }
     }
 
-    private init(initial: Wave?, strategy: Strategy) {
-        self._currentValue = Atomic<Wave?>(initial)
+    private init(strategy: Strategy) {
         self.handlers = Atomic<[Handler]>([])
         self.strategy = strategy
     }
 
-    public static func make(with initial: Wave? = nil,
-                            strategy: Strategy = .onlyNewValues)
+    public static func make(with strategy: Strategy = .onlyNewValues)
         -> (Receiver.Transmitter, Receiver) {
-        let receiver = Receiver(initial: initial, strategy: strategy)
+        let receiver = Receiver(strategy: strategy)
         let transmitter = Receiver<Wave>.Transmitter(receiver)
 
         return (transmitter, receiver)
