@@ -63,6 +63,29 @@ A lot of libs have the reader and the writer bundled within the same entity. For
 
 If you are familiar with FRP, you must have heard about [cold and hot semantics](http://codeplease.io/2017/10/15/ras-s1e3-3/). `Receiver` can't really provide cold semantics, but it can provide something a bit more unusual called "warm" semantics. A "warm" `Receiver`, is a hot one, but provides the last value sent.
 
+Hopefully this will make sense, with `.sendLastValue` (**warm semantics**):
+
+```
+let (transmitter, receiver) = Receiver<Int>.make(with: .sendLastValue)
+transmitter.broadcast(1)
+
+receiver.listen { wave in
+    // This will be called with `wave == 1`
+}
+```
+
+With `.onlyNewValues` (**hot semantics**):
+
+```swift
+let (transmitter, receiver) = Receiver<Int>.make(with: .onlyNewValues)
+transmitter.broadcast(1)
+
+receiver.listen { wave in
+    // This won't be called, since we only started listening after the transmission's broadcas.
+}
+
+```
+
 
 ### Ok, so why would I use this? 🤷‍♀️
 
