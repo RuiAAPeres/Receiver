@@ -68,7 +68,7 @@ If you are familiar with FRP, you must have heard about [cold and hot semantics]
 
 ~Well, to make your codebase awesome of course.~ There are a lot of places where the observer pattern can be useful. In the most simplistic scenario, when delegation is not good enough and you have an `1-to-N` relationship.
 
-A good use case for this would in tracking an UIApplication lifecycle:
+A good use case for this would in tracking an `UIApplication`'s lifecycle:
 
 ```swift
 enum ApplicationLifecycle {
@@ -87,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let (transmitter, receiver) = Receiver<ApplicationLifecycle>.make()
         self.transmitter = transmitter
-        // Pass down the `receiver` to where it's needed (ViewModels, for example)
+        // Pass down the `receiver` to where it's needed (e.g. ViewModel, Controllers)
 
         transmitter.broadcast(.didFinishLaunching)
         return true
@@ -101,6 +101,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         transmitter.broadcast(.didBecomeActive)
     }
 }
-
-
 ```
