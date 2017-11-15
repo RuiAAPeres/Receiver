@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		B286F8311FBCD22C00FE73BB /* Receiver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B286F8271FBCD22B00FE73BB /* Receiver.framework */; };
 		B286F8361FBCD22C00FE73BB /* ReceiverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B286F8351FBCD22C00FE73BB /* ReceiverTests.swift */; };
-		B286F8381FBCD22C00FE73BB /* Receiver.h in Headers */ = {isa = PBXBuildFile; fileRef = B286F82A1FBCD22B00FE73BB /* Receiver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B286F8471FBCD25A00FE73BB /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B286F8441FBCD25A00FE73BB /* Atomic.swift */; };
+		B286F8481FBCD25A00FE73BB /* Receiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B286F8451FBCD25A00FE73BB /* Receiver.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,11 +25,12 @@
 
 /* Begin PBXFileReference section */
 		B286F8271FBCD22B00FE73BB /* Receiver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Receiver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B286F82A1FBCD22B00FE73BB /* Receiver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Receiver.h; sourceTree = "<group>"; };
-		B286F82B1FBCD22B00FE73BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B286F8301FBCD22C00FE73BB /* ReceiverTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReceiverTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B286F8351FBCD22C00FE73BB /* ReceiverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverTests.swift; sourceTree = "<group>"; };
 		B286F8371FBCD22C00FE73BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B286F8421FBCD25A00FE73BB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B286F8441FBCD25A00FE73BB /* Atomic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
+		B286F8451FBCD25A00FE73BB /* Receiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Receiver.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,8 +73,8 @@
 		B286F8291FBCD22B00FE73BB /* Receiver */ = {
 			isa = PBXGroup;
 			children = (
-				B286F82A1FBCD22B00FE73BB /* Receiver.h */,
-				B286F82B1FBCD22B00FE73BB /* Info.plist */,
+				B286F8431FBCD25A00FE73BB /* Sources */,
+				B286F8411FBCD25A00FE73BB /* Supporting Files */,
 			);
 			path = Receiver;
 			sourceTree = "<group>";
@@ -86,6 +88,23 @@
 			path = ReceiverTests;
 			sourceTree = "<group>";
 		};
+		B286F8411FBCD25A00FE73BB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B286F8421FBCD25A00FE73BB /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B286F8431FBCD25A00FE73BB /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B286F8441FBCD25A00FE73BB /* Atomic.swift */,
+				B286F8451FBCD25A00FE73BB /* Receiver.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -93,7 +112,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B286F8381FBCD22C00FE73BB /* Receiver.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +214,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B286F8481FBCD25A00FE73BB /* Receiver.swift in Sources */,
+				B286F8471FBCD25A00FE73BB /* Atomic.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,7 +360,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Receiver/Info.plist;
+				INFOPLIST_FILE = "Receiver/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emergencyavocado.Receiver;
@@ -360,7 +380,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Receiver/Info.plist;
+				INFOPLIST_FILE = "Receiver/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emergencyavocado.Receiver;
@@ -374,6 +394,7 @@
 		B286F83F1FBCD22C00FE73BB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ReceiverTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -387,6 +408,7 @@
 		B286F8401FBCD22C00FE73BB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ReceiverTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

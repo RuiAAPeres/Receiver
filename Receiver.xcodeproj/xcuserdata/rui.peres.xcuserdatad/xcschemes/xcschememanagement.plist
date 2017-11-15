@@ -4,10 +4,23 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Receiver.xcscheme</key>
+		<key>Receiver.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>B286F8261FBCD22B00FE73BB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B286F82F1FBCD22C00FE73BB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

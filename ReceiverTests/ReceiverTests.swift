@@ -1,36 +1,36 @@
-//
-//  ReceiverTests.swift
-//  ReceiverTests
-//
-//  Created by Rui Peres on 15/11/2017.
-//  Copyright © 2017 Emergency Avocado. All rights reserved.
-//
-
 import XCTest
 @testable import Receiver
 
 class ReceiverTests: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+
+    func test_OneListener_OneSender() {
+        let (transmitter, receiver) = Receiver<Int>.make()
+        var called = 0
+
+        receiver.listen { wave in
+            XCTAssertTrue(wave == 1)
+            called = called + 1
         }
+
+        transmitter.broadcast(1)
+        XCTAssertTrue(called == 1)
     }
-    
+
+    func test_MultipleListeners_OneSender() {
+        let (transmitter, receiver) = Receiver<Int>.make()
+        var called = 0
+
+        for _ in 1...5 {
+            receiver.listen { wave in
+                XCTAssertTrue(wave == 1)
+                called = called + 1
+            }
+        }
+
+        transmitter.broadcast(1)
+        XCTAssertTrue(called == 5)
+
+        transmitter.broadcast(1)
+        XCTAssertTrue(called == 10)
+    }
 }
