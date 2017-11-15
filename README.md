@@ -109,9 +109,9 @@ Similar to the `ApplicationLifecycle`, the same approach could be used for MVVM:
 ```swift
 class MyViewController: UIViewController {
     private let viewModel: MyViewModel
-    private let transmitter: Receiver<UILifecycle>.Transmitter
+    private let transmitter: Receiver<UIViewControllerLifecycle>.Transmitter
     
-    init(viewModel: MyViewModel, transmitter: Receiver<UILifecycle>.Transmitter) {
+    init(viewModel: MyViewModel, transmitter: Receiver<UIViewControllerLifecycle>.Transmitter) {
         self.viewModel = viewModel
         self.transmitter = transmitter
         super.init(nibName: nil, bundle: nil)
@@ -129,7 +129,7 @@ class MyViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated) 
-        transmitter.broadcast(.viewDidAppear)
+        transmitter.broadcast(.viewDidDisappear)
     }
 }
 ```
