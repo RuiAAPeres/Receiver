@@ -19,7 +19,7 @@ Nevertheless, a precious pattern can still be used, even without such an awesome
 
 ![](https://viralviralvideos.com/wp-content/uploads/GIF/2015/06/OMG-this-is-so-awesome-GIF.gif)
 
-`Receiver` is nothing more than an opiniated implementation of the [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern). Or, if you prefer, [`FRP`](https://en.wikipedia.org/wiki/Functional_reactive_programming) without the `F` and a really small `R` ([rP](https://en.wikipedia.org/wiki/Reactive_programming) 🤔). 
+`Receiver` is nothing more than an opinionated implementation of the [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern). Or, if you prefer, [`FRP`](https://en.wikipedia.org/wiki/Functional_reactive_programming) without the `F` and a really small `R` ([rP](https://en.wikipedia.org/wiki/Reactive_programming) 🤔). 
 
 ### Show me the codez! 😸
 
@@ -57,7 +57,7 @@ The `make` method, follows the same approach used in ReactiveSwift, with `pipe`.
 
 #### Separation between the reader and the writer. ⬆️ ⬇️
 
-A lot of libs have the reader and the writter bundled within the same entity. For the purposes and use cases of this lib, it makes sense to have these concerns separated. It's a bit like a `UITableView` and a `UITableViewDataSource`: one fuels the other, so it might be better for them to split into two different entities. 
+A lot of libs have the reader and the writer bundled within the same entity. For the purposes and use cases of this lib, it makes sense to have these concerns separated. It's a bit like a `UITableView` and a `UITableViewDataSource`: one fuels the other, so it might be better for them to split into two different entities. 
 
 #### `sendLastValue` and `onlyNewValues` 🔥 ❄️
 
@@ -67,3 +67,40 @@ If you are familiar with FRP, you must have heard about [cold and hot semantics]
 ### Ok, so why would I use this? 🤷‍♀️
 
 ~Well, to make your codebase awesome of course.~ There are a lot of places where the observer pattern can be useful. In the most simplistic scenario, when delegation is not good enough and you have an `1-to-N` relationship.
+
+A good use case for this would in tracking an UIApplication lifecycle:
+
+```swift
+enum ApplicationLifecycle {
+    case didFinishLaunching
+    case didBecomeActive
+    case didEnterBackground
+}
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    var window: UIWindow?
+    private var transmitter: Receiver<ApplicationLifecycle>.Transmitter!
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
+        let (transmitter, receiver) = Receiver<ApplicationLifecycle>.make()
+        self.transmitter = transmitter
+        // Pass down the `receiver` to where it's needed (ViewModels, for example)
+
+        transmitter.broadcast(.didFinishLaunching)
+        return true
+    }
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        transmitter.broadcast(.didEnterBackground)
+    }
+
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        transmitter.broadcast(.didBecomeActive)
+    }
+}
+
+
+```
