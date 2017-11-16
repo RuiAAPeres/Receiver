@@ -41,8 +41,7 @@ This is how you observe events:
 receiver.listen { cheezburgers in print("Can I haz \(cheezburgers) cheezburger. 🐈") }
 ```
 
-As expected, you can do as many times you want:
-
+As expected, you can do so as many times as you want:
 
 ```swift
 receiver.listen { cheezburgers in print("Can I haz \(cheezburgers) cheezburger. 🐈") }
