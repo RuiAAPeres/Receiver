@@ -9,7 +9,7 @@
 
 As a [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) user myself, most of time, it's difficult to convince someone to just simply start using it. The reality, for better or worse, is that most projects/teams are not ready to adopt it:
 
-1. Fear of adding a big dependency.
+1. The intrinsic problems of adding a big dependency.
 2. The learning curve.
 3. Adapting the current codebase to a FRP mindset/approach.
 
@@ -19,7 +19,7 @@ Nevertheless, a precious pattern can still be used, even without such an awesome
 
 ![](https://viralviralvideos.com/wp-content/uploads/GIF/2015/06/OMG-this-is-so-awesome-GIF.gif)
 
-`Receiver` is nothing more than an opinionated implementation of the [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern). Or, if you prefer, [`FRP`](https://en.wikipedia.org/wiki/Functional_reactive_programming) without the `F` and a really small `R` ([rP](https://en.wikipedia.org/wiki/Reactive_programming) 🤔). 
+`Receiver` is nothing more than an opinionated micro framework implementation of the [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern) (**~120 LOC**). Or, if you prefer, [`FRP`](https://en.wikipedia.org/wiki/Functional_reactive_programming) without the `F` and a really small `R` ([rP](https://en.wikipedia.org/wiki/Reactive_programming) 🤔). 
 
 ### Show me the codez! 😸
 
