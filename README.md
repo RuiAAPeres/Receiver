@@ -71,7 +71,10 @@ transmitter.broadcast(1)
 
 receiver.listen { wave in
     // This will be called with `wave == 1`
+    // This will be called with `wave == 2`
 }
+
+transmitter.broadcast(2)
 ```
 
 With `.onlyNewValues` (**hot semantics**):
@@ -81,9 +84,11 @@ let (transmitter, receiver) = Receiver<Int>.make(with: .onlyNewValues)
 transmitter.broadcast(1)
 
 receiver.listen { wave in
-    // This won't be called, since we only started listening after the transmission's broadcas.
+    // This won't be called for `wave == 1`, since we only started listening after the first broadcast.
+    // This will now be called with `wave == 2`, because we started listening before the second broadcast.
 }
 
+transmitter.broadcast(2)
 ```
 
 
