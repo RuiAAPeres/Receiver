@@ -65,7 +65,7 @@ If you are familiar with FRP, you must have heard about [cold and hot semantics]
 
 Hopefully this will make sense, with `.sendLastValue` (**warm semantics**):
 
-```
+```swift
 let (transmitter, receiver) = Receiver<Int>.make(with: .sendLastValue)
 transmitter.broadcast(1)
 
