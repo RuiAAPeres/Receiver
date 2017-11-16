@@ -38,8 +38,20 @@ A `receiver` can never be created without an associated `transmitter` (what good
 This is how you observe events:
 
 ```swift
-receiver.listen { wave in print("Can I haz \(wave) cheezburger. 🐈") }
+receiver.listen { cheezburgers in print("Can I haz \(cheezburgers) cheezburger. 🐈") }
 ```
+
+As expected, you can do as many times you want:
+
+
+```swift
+receiver.listen { cheezburgers in print("Can I haz \(cheezburgers) cheezburger. 🐈") }
+
+
+receiver.listen { cheezburgers in print("I have \(cheezburgers) cheezburgers and you have none!")}
+```
+
+And both handlers will be called, when an event is broadcasted. ⚡️
 
 #### 3. Broadcasting an event 📻
 
