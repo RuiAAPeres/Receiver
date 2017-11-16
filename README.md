@@ -53,7 +53,7 @@ transmitter.broadcast(1)
 
 #### Initializer. 🌳
 
-The `make` method, follows the same approach used in ReactiveSwift, with `pipe`. Since a `receiver` only makes sense with a `transmitter`, it's only logic for them to be created together. 
+The `make` method, follows the same approach used in ReactiveSwift, with `pipe`. Since a `receiver` only makes sense with a `transmitter`, it's only logical for them to be created together. 
 
 #### Separation between the reader and the writer. ⬆️ ⬇️
 
