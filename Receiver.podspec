@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.name         = "Receiver"
   s.version      = "0.0.1"
-  s.summary      = "Receiver is nothing more than an opinionated micro framework implementation of the Observer pattern (~120 LOC)"
+  s.summary      = "Swift µframework implementing the Observer pattern"
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -25,6 +25,7 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
+  Receiver is nothing more than an opinionated micro framework implementation of the Observer pattern (~120 LOC)
   As a ReactiveSwift user myself, most of time, it's difficult to convince someone to just simply start using it. The reality, for better or worse, is that most projects/teams are not ready to adopt it:
 
 The intrinsic problems of adding a big dependency.
@@ -72,7 +73,7 @@ Nevertheless, a precious pattern can still be used, even without such an awesome
 
   #  When using multiple platforms
   s.ios.deployment_target = '10.0'
-  s.tvos.deployment_target = '10.0'
+  #s.tvos.deployment_target = '10.0'
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
