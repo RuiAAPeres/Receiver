@@ -81,4 +81,21 @@ class ReceiverTests: XCTestCase {
             XCTAssertTrue(wave == 1)
         }
     }
+
+    func test_NoValueIsSent_IfBroadCastBeforeListenning_forHotSemantics() {
+        let expect = expectation(description: "fun")
+        let (transmitter, receiver) = Receiver<Int>.make()
+
+        transmitter.broadcast(1)
+
+        receiver.listen { wave in
+            fatalError()
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: 1, handler: nil)
+    }
 }

@@ -50,7 +50,7 @@ public class Receiver<Wave>: Receivable {
         handlers.apply { _handlers in
             _handlers.append(handle)
 
-            switch (strategy, _currentValue.value) {
+            switch (strategy, currentValue) {
             case (.sendLastValue, let .some(value)):
                 handle(value)
             default: break
