@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
-  Receiver is nothing more than an opinionated micro framework implementation of the Observer pattern (~120 LOC)
+  Receiver is nothing more than an opinionated micro framework implementation of the Observer pattern (~120 LOC).
   As a ReactiveSwift user myself, most of time, it's difficult to convince someone to just simply start using it. The reality, for better or worse, is that most projects/teams are not ready to adopt it:
 
 The intrinsic problems of adding a big dependency.
