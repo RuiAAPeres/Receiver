@@ -16,13 +16,13 @@ As a [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) user myself
 
 Nevertheless, a precious pattern can still be used, even without such an awesome lib like [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift). 😖
 
-### 🌈 Enter `Receiver`! 🌈
+## 🌈 Enter `Receiver`! 🌈
 
 ![](https://viralviralvideos.com/wp-content/uploads/GIF/2015/06/OMG-this-is-so-awesome-GIF.gif)
 
 `Receiver` is nothing more than an opinionated micro framework implementation of the [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern) (**~120 LOC**). Or, if you prefer, [`FRP`](https://en.wikipedia.org/wiki/Functional_reactive_programming) without the `F` and a really small `R` ([rP](https://en.wikipedia.org/wiki/Reactive_programming) 🤔). 
 
-### Adding as a Dependency 🚀
+## Adding as a Dependency 🚀
 
 #### Carthage
 
@@ -42,7 +42,7 @@ If you use CocoaPods to manage your dependencies, simply add `Receiver` to your 
 pod 'Receiver', '~> 0.0.1'
 ```
 
-### Show me the codez! 😸
+## Show me the codez! 😸
 
 Let's begin with the basics. **There are three methods in total**. Yup, that's right. 
 
@@ -81,7 +81,7 @@ This is how you send events:
 transmitter.broadcast(1)
 ```
 
-### Opinionated, in what way? 🤓
+## Opinionated, in what way? 🤓
 
 #### Initializer. 🌳
 
@@ -124,7 +124,7 @@ transmitter.broadcast(2)
 ```
 
 
-### Ok, so why would I use this? 🤷‍♀️
+## Ok, so why would I use this? 🤷‍♀️
 
 ~Well, to make your codebase awesome of course.~ There are a lot of places where the observer pattern can be useful. In the most simplistic scenario, when delegation is not good enough and you have an `1-to-N` relationship.
 
