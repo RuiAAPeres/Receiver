@@ -85,8 +85,6 @@ transmitter.broadcast(1)
 
 ## Strategies
 
-/// #### `.cold`, `.hot` and `.warm` (oh my!) 🔥 ❄️
-
 If you are familiar with FRP, you must have heard about [cold and hot semantics](http://codeplease.io/2017/10/15/ras-s1e3-3/) (if not don't worry! ☺️). `Receiver` provides all three flavours explicitly, when you initialize it, via `make(strategy:)`. By default, the `Receiver` is `.hot`.
 
 ### `.cold` ❄️:
