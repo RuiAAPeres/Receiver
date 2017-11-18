@@ -34,7 +34,7 @@ class ReceiverTests: XCTestCase {
         XCTAssertTrue(called == 10)
     }
 
-    func test_Multithread_Fun() {
+    func test_Multithread() {
         let expect = expectation(description: "fun")
         let (transmitter, receiver) = Receiver<Int>.make()
         var called = 0
@@ -44,13 +44,15 @@ class ReceiverTests: XCTestCase {
         let threeQueues = DispatchQueue(label: "threeQueues")
         let fourQueues = DispatchQueue(label: "fourQueues")
 
-        for _ in 1...5 {
-            receiver.listen { wave in
-                called = called + 1
-            }
+        receiver.listen { wave in
+            called = called + 1
         }
 
-        for _ in 1...100 {
+        receiver.listen { wave in
+            called = called + 1
+        }
+
+        for _ in 1...5 {
             oneQueue.async {
                 transmitter.broadcast(1)
             }
@@ -66,23 +68,65 @@ class ReceiverTests: XCTestCase {
         }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-            XCTAssert(called == 2000)
+            print(called)
+            XCTAssert(called == 40)
             expect.fulfill()
         }
 
         waitForExpectations(timeout: 1, handler: nil)
     }
 
-    func test_SendLastValue() {
-        let (transmitter, receiver) = Receiver<Int>.make(with: .sendLastValue)
-        transmitter.broadcast(1)
-
-        receiver.listen { wave in
-            XCTAssertTrue(wave == 1)
-        }
+    func test_Warm_0() {
+        runWarmBattery(expectedValues: [1, 2], upTo: 0)
     }
 
-    func test_NoValueIsSent_IfBroadCastBeforeListenning_forHotSemantics() {
+    func test_Warm_2_Queue1() {
+        runWarmBattery(expectedValues: [1, 2], upTo: 1)
+    }
+
+    func test_Warm_2_Queue2() {
+        runWarmBattery(expectedValues: [1, 2], upTo: 2)
+    }
+
+    func test_Warm_2_Queue3() {
+        runWarmBattery(expectedValues: [1, 2], upTo: 3)
+    }
+
+    func test_Warm_5_Queue3() {
+        runWarmBattery(expectedValues: [1, 2, 3, 4, 5], upTo: 3)
+    }
+
+    func runWarmBattery(expectedValues: [Int], upTo limit: Int) {
+        let (transmitter, receiver) = Receiver<Int>.make(with: .warm(upTo: limit))
+        var called = 0
+
+        expectedValues.forEach(transmitter.broadcast)
+
+        receiver.listen { wave in
+            let index = max((expectedValues.count - limit), 0) + called
+            XCTAssertTrue(expectedValues[index] == wave)
+            called = called + 1
+        }
+
+        XCTAssertTrue(called == min(expectedValues.count, limit))
+    }
+
+    func test_Cold() {
+        let (transmitter, receiver) = Receiver<Int>.make(with: .cold)
+        var called = 0
+
+        let expectedValues = [1, 2, 3, 4, 5]
+        expectedValues.forEach(transmitter.broadcast)
+
+        receiver.listen { wave in
+            XCTAssertTrue(expectedValues[called] == wave)
+            called = called + 1
+        }
+
+        XCTAssertTrue(called == 5)
+    }
+
+    func test_NoValueIsSent_IfBroadCastBeforeListenning_forHot() {
         let expect = expectation(description: "fun")
         let (transmitter, receiver) = Receiver<Int>.make()
 

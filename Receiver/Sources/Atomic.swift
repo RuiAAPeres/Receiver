@@ -27,20 +27,6 @@ internal class Atomic<Value> {
     private let lock = UnfairLock()
     private var _value: Value
 
-    internal var value: Value {
-        get {
-            lock.lock()
-            defer { lock.unlock() }
-            return _value
-        }
-
-        set(newValue) {
-            lock.lock()
-            defer { lock.unlock() }
-            _value = newValue
-        }
-    }
-
     internal init(_ value: Value) {
         _value = value
     }

@@ -20,7 +20,7 @@ Nevertheless, a precious pattern can still be used, even without such an awesome
 
 ![](https://viralviralvideos.com/wp-content/uploads/GIF/2015/06/OMG-this-is-so-awesome-GIF.gif)
 
-`Receiver` is nothing more than an opinionated micro framework implementation of the [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern) (**~120 LOC**). Or, if you prefer, [`FRP`](https://en.wikipedia.org/wiki/Functional_reactive_programming) without the `F` and a really small `R` ([rP](https://en.wikipedia.org/wiki/Reactive_programming) 🤔). 
+`Receiver` is nothing more than an opinionated micro framework implementation of the [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern) (**~120 LOC**). Or, if you prefer, [`FRP`](https://en.wikipedia.org/wiki/Functional_reactive_programming) without the `F` and a really small `R` ([rP](https://en.wikipedia.org/wiki/Reactive_programming) 🤔).
 
 ## Adding as a Dependency 🚀
 
@@ -44,7 +44,7 @@ pod 'Receiver', '~> 0.0.1'
 
 ## Show me the codez! 😸
 
-Let's begin with the basics. **There are three methods in total**. Yup, that's right. 
+Let's begin with the basics. **There are three methods in total**. Yup, that's right.
 
 #### 1. Creating the Receiver
 
@@ -81,48 +81,76 @@ This is how you send events:
 transmitter.broadcast(1)
 ```
 
-## Opinionated, in what way? 🤓
+## Strategies
 
-#### Initializer. 🌳
+/// #### `.cold`, `.hot` and `.warm` (oh my!) 🔥 ❄️
 
-The `make` method, follows the same approach used in ReactiveSwift, with `pipe`. Since a `receiver` only makes sense with a `transmitter`, it's only logical for them to be created together. 
+If you are familiar with FRP, you must have heard about [cold and hot semantics](http://codeplease.io/2017/10/15/ras-s1e3-3/) (if not don't worry! ☺️). `Receiver` provides all three flavours explicitly, when you initialize it, via `make(strategy:)`. By default, the `Receiver` is `.hot`.
 
-#### Separation between the reader and the writer. ⬆️ ⬇️
-
-A lot of libs have the reader and the writer bundled within the same entity. For the purposes and use cases of this lib, it makes sense to have these concerns separated. It's a bit like a `UITableView` and a `UITableViewDataSource`: one fuels the other, so it might be better for them to be split into two different entities. 
-
-#### `sendLastValue` and `onlyNewValues` 🔥 ❄️
-
-If you are familiar with FRP, you must have heard about [cold and hot semantics](http://codeplease.io/2017/10/15/ras-s1e3-3/). `Receiver` can't really provide cold semantics, but it can provide something a bit more unusual called "warm" semantics. A "warm" `Receiver`, is a hot one, but provides the last value sent.
-
-Hopefully this will make sense, with `.sendLastValue` (**warm semantics**):
+### `.cold` ❄️:
 
 ```swift
-let (transmitter, receiver) = Receiver<Int>.make(with: .sendLastValue)
+let (transmitter, receiver) = Receiver<Int>.make(with: .cold)
 transmitter.broadcast(1)
+transmitter.broadcast(2)
+transmitter.broadcast(3)
 
 receiver.listen { wave in
     // This will be called with `wave == 1`
     // This will be called with `wave == 2`
+    // This will be called with `wave == 3`
+    // This will be called with `wave == 4`
 }
 
-transmitter.broadcast(2)
+transmitter.broadcast(4)
 ```
 
-With `.onlyNewValues` (**hot semantics**):
+Internally, the `Receiver` will keep a buffer of the previous sent values. Once there is a new listener, all the previous values are sent. When the `4` is sent, it will be "listened to" as expected.
+
+### `.warm(upTo: Int)` 🌈:
+
+This strategy allows you to specify how big the buffer should be:
 
 ```swift
-let (transmitter, receiver) = Receiver<Int>.make(with: .onlyNewValues)
+let (transmitter, receiver) = Receiver<Int>.make(with: .warm(upTo: 1))
 transmitter.broadcast(1)
+transmitter.broadcast(2)
 
 receiver.listen { wave in
-    // This won't be called for `wave == 1`, since we only started listening after the first broadcast.
-    // This will now be called with `wave == 2`, because we started listening before the second broadcast.
+    // This will be called with `wave == 2`
+    // This will be called with `wave == 3`
 }
 
-transmitter.broadcast(2)
+transmitter.broadcast(3)
 ```
 
+In this case `1` will never be called, because the limit specified (`upTo: 1`) is too low, so only `2` is kept in the buffer.
+
+### `.hot` 🔥:
+
+```swift
+let (transmitter, receiver) = Receiver<Int>.make(with: .hot) // this is the default strategy
+transmitter.broadcast(1)
+transmitter.broadcast(2)
+
+receiver.listen { wave in
+    // This will be called with `wave == 3`
+}
+
+transmitter.broadcast(3)
+```
+
+Anything broadcasted before listening is discarded.
+
+## Opinionated, in what way? 🤓
+
+#### Initializer. 🌳
+
+The `make` method, follows the same approach used in ReactiveSwift, with `pipe`. Since a `receiver` only makes sense with a `transmitter`, it's only logical for them to be created together.
+
+#### Separation between the reader and the writer. ⬆️ ⬇️
+
+A lot of libs have the reader and the writer bundled within the same entity. For the purposes and use cases of this lib, it makes sense to have these concerns separated. It's a bit like a `UITableView` and a `UITableViewDataSource`: one fuels the other, so it might be better for them to be split into two different entities.
 
 ## Ok, so why would I use this? 🤷‍♀️
 
@@ -170,31 +198,31 @@ Similar to the `ApplicationLifecycle`, the same approach could be used for MVVM:
 class MyViewController: UIViewController {
     private let viewModel: MyViewModel
     private let transmitter: Receiver<UIViewControllerLifecycle>.Transmitter
-    
+
     init(viewModel: MyViewModel, transmitter: Receiver<UIViewControllerLifecycle>.Transmitter) {
         self.viewModel = viewModel
         self.transmitter = transmitter
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     override func viewDidLoad() {
-        super.viewdDidLoad() 
+        super.viewdDidLoad()
         transmitter.broadcast(.viewDidLoad)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated) 
+        super.viewDidAppear(animated)
         transmitter.broadcast(.viewDidAppear)
     }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated) 
+        super.viewDidDisappear(animated)
         transmitter.broadcast(.viewDidDisappear)
     }
 }
 ```
 
-The nice part is that the `UIViewController` is never aware of the `receiver`, as it should be. ✨ 
+The nice part is that the `UIViewController` is never aware of the `receiver`, as it should be. ✨
 
 At initialization time:
 
