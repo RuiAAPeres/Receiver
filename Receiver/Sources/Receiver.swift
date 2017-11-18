@@ -12,57 +12,67 @@ public class Receiver<Wave>: Receivable {
 
     public typealias Handler = (Wave) -> Void
 
-    private let _currentValue = Atomic<Wave?>(nil)
+    private let values = Atomic<[Wave]>([])
     private let strategy: Strategy
     private let handlers: Atomic<[Handler]>
-
-    fileprivate var currentValue: Wave? {
-        get {
-            return _currentValue.value
-        }
-
-        set(newValue) {
-            guard let value = newValue else { return }
-            _currentValue.value = value
-
-            handlers.apply { _handlers in
-                _handlers.forEach {
-                    $0(value)
-                }
-            }
-        }
-    }
 
     private init(strategy: Strategy) {
         self.handlers = Atomic<[Handler]>([])
         self.strategy = strategy
     }
 
-    public static func make(with strategy: Strategy = .onlyNewValues)
-        -> (Receiver.Transmitter, Receiver) {
-        let receiver = Receiver(strategy: strategy)
-        let transmitter = Receiver<Wave>.Transmitter(receiver)
+    private func broadcast(elements: Int) {
+        values.apply { _values in
 
-        return (transmitter, receiver)
+            let lowerLimit = max(_values.count - elements, 0)
+            let indexs = (lowerLimit ..< _values.count)
+
+            indexs.forEach { index in
+                let value = _values[index]
+                handlers.apply { _handlers in
+                    _handlers.forEach { _handler in
+                        _handler(value)
+                    }
+                }
+            }
+        }
+    }
+
+    fileprivate func append(value: Wave) {
+        values.apply { currentValues in
+            currentValues.append(value)
+        }
+        broadcast(elements: 1)
     }
 
     public func listen(to handle: @escaping (Wave) -> Void) {
         handlers.apply { _handlers in
             _handlers.append(handle)
-
-            switch (strategy, currentValue) {
-            case (.sendLastValue, let .some(value)):
-                handle(value)
-            default: break
-            }
         }
+        switch strategy {
+        case .cold:
+            broadcast(elements: Int.max)
+        case let .warm(upTo: limit):
+            broadcast(elements: limit)
+        case .hot:
+            broadcast(elements: 0)
+        }
+    }
+
+    public static func make(with strategy: Strategy = .hot)
+        -> (Receiver.Transmitter, Receiver) {
+            let receiver = Receiver(strategy: strategy)
+            let transmitter = Receiver<Wave>.Transmitter(receiver)
+
+            return (transmitter, receiver)
     }
 }
 
 public extension Receiver {
     enum Strategy {
-        case sendLastValue
-        case onlyNewValues
+        case cold
+        case warm(upTo: Int)
+        case hot
     }
 }
 
@@ -75,7 +85,7 @@ public extension Receiver {
         }
 
         public func broadcast(_ wave: Wave) {
-            receiver?.currentValue = wave
+            receiver?.append(value: wave)
         }
     }
 }

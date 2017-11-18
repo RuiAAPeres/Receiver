@@ -5,3 +5,4 @@ script:
   - xcodebuild test -scheme Receiver -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 6s" | xcpretty -c
 after_success:
 - bash <(curl -s https://codecov.io/bash)
+
