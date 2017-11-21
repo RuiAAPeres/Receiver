@@ -12,9 +12,9 @@ public class Receiver<Wave>: Receivable {
 
     public typealias Handler = (Wave) -> Void
 
-    fileprivate let values = Atomic<[Wave]>([])
-    fileprivate let strategy: Strategy
-    fileprivate let handlers: Atomic<[Handler]>
+    private let values = Atomic<[Wave]>([])
+    private let strategy: Strategy
+    private let handlers: Atomic<[Handler]>
 
     private init(strategy: Strategy) {
         self.handlers = Atomic<[Handler]>([])
