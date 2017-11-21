@@ -78,14 +78,14 @@ public extension Receiver {
 
 public extension Receiver {
     struct Transmitter: Transmittable {
-        private weak var receiver: Receiver?
+        private let receiver: Receiver
 
         init(_ receiver: Receiver) {
             self.receiver = receiver
         }
 
         public func broadcast(_ wave: Wave) {
-            receiver?.append(value: wave)
+            receiver.append(value: wave)
         }
     }
 }

@@ -142,4 +142,19 @@ class ReceiverTests: XCTestCase {
 
         waitForExpectations(timeout: 1, handler: nil)
     }
+    
+    func test_weakness() {
+        
+        var outterTransmitter: Receiver<Int>.Transmitter?
+        weak var outterReceiver: Receiver<Int>?
+        
+        autoreleasepool {
+            let (transmitter, receiver) = Receiver<Int>.make()
+            outterTransmitter = transmitter
+            outterReceiver = receiver
+        }
+        
+        XCTAssertNotNil(outterTransmitter)
+        XCTAssertNotNil(outterReceiver)
+    }
 }
