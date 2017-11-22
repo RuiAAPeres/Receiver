@@ -32,5 +32,5 @@ class ReceiverTests_Operators: XCTestCase {
         transmitter.broadcast(3)
 
         XCTAssertTrue(called == 1)
-
+    }
 }
