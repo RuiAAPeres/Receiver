@@ -19,6 +19,23 @@ extension Receiver {
 
         return receiver
     }
+
+    func withPrevious() -> Receiver<(Wave?, Wave)> {
+        let (transmitter, receiver) = Receiver<(Wave?, Wave)>.make()
+        let values = Atomic<[Wave]>([])
+
+        self.listen { newValue in
+            values.apply { _values in
+
+                let previous = _values.last
+                _values.append(newValue)
+
+                transmitter.broadcast((previous, newValue))
+            }
+        }
+
+        return receiver
+    }
 }
 
 extension Receiver where Wave: Equatable {

@@ -53,4 +53,26 @@ class ReceiverTests_Operators: XCTestCase {
 
         XCTAssertTrue(called == 5)
     }
+
+    func test_withPrevious_nil() {
+        let (transmitter, receiver) = Receiver<Int>.make()
+        let newReceiver = receiver.withPrevious()
+        var called = 0
+        var expected: (Int?, Int) = (0, 0)
+
+        newReceiver.listen { wave in
+            expected = wave
+            called = called + 1
+        }
+
+        transmitter.broadcast(1)
+        XCTAssertTrue(expected.0 == nil)
+        XCTAssertTrue(expected.1 == 1)
+
+        transmitter.broadcast(2)
+        XCTAssertTrue(expected.0 == 1)
+        XCTAssertTrue(expected.1 == 2)
+
+        XCTAssertTrue(called == 2)
+    }
 }
