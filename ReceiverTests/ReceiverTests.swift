@@ -68,7 +68,6 @@ class ReceiverTests: XCTestCase {
         }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-            print(called)
             XCTAssert(called == 40)
             expect.fulfill()
         }
