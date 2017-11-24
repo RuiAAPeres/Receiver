@@ -33,4 +33,24 @@ class ReceiverTests_Operators: XCTestCase {
 
         XCTAssertTrue(called == 1)
     }
+
+    func test_skipRepeats() {
+        let (transmitter, receiver) = Receiver<Int>.make()
+        let newReceiver = receiver.skipRepeats()
+        var called = 0
+
+        newReceiver.listen { wave in
+            called = called + 1
+        }
+
+        transmitter.broadcast(1)
+        transmitter.broadcast(1)
+        transmitter.broadcast(2)
+        transmitter.broadcast(1)
+        transmitter.broadcast(2)
+        transmitter.broadcast(2)
+        transmitter.broadcast(3)
+
+        XCTAssertTrue(called == 5)
+    }
 }

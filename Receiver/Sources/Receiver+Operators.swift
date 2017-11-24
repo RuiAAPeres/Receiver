@@ -20,3 +20,31 @@ extension Receiver {
         return receiver
     }
 }
+
+extension Receiver where Wave: Equatable {
+    func skipRepeats() -> Receiver<Wave> {
+        let (transmitter, receiver) = Receiver<Wave>.make()
+        let values = Atomic<[Wave]>([])
+
+        self.listen { newValue in
+            values.apply { _values in
+
+                func f(_ newValue: Wave) {
+                    _values.append(newValue)
+                    transmitter.broadcast(newValue)
+                }
+
+                switch _values.last {
+                case let .some(lastValue) where lastValue != newValue:
+                    f(newValue)
+                case .none:
+                    f(newValue)
+                default:
+                    return
+                }
+            }
+        }
+
+        return receiver
+    }
+}
