@@ -36,6 +36,27 @@ extension Receiver {
 
         return receiver
     }
+
+    func skip(count: Int) -> Receiver<Wave> {
+        guard count > 0 else { return self }
+
+        let (transmitter, receiver) = Receiver<Wave>.make()
+        let counter = Atomic<Int>(0)
+
+        self.listen { newValue in
+            counter.apply { _counterValue in
+
+                guard _counterValue >= count else {
+                    _counterValue = _counterValue + 1
+                    return
+                }
+
+                transmitter.broadcast(newValue)
+            }
+        }
+
+        return receiver
+    }
 }
 
 extension Receiver where Wave: Equatable {
