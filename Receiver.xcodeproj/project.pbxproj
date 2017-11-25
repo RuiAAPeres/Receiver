@@ -11,6 +11,7 @@
 		B286F8361FBCD22C00FE73BB /* ReceiverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B286F8351FBCD22C00FE73BB /* ReceiverTests.swift */; };
 		B286F8471FBCD25A00FE73BB /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B286F8441FBCD25A00FE73BB /* Atomic.swift */; };
 		B286F8481FBCD25A00FE73BB /* Receiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B286F8451FBCD25A00FE73BB /* Receiver.swift */; };
+		B2CBF31C1FCA2F0200D6F497 /* ReceiverTests+Performance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CBF31B1FCA2F0200D6F497 /* ReceiverTests+Performance.swift */; };
 		E8F62DF91FC39178006899AC /* Receiver+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F62DF81FC39178006899AC /* Receiver+Operators.swift */; };
 		E8F62DFB1FC3A129006899AC /* ReceiverTests+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F62DFA1FC3A129006899AC /* ReceiverTests+Operators.swift */; };
 /* End PBXBuildFile section */
@@ -33,6 +34,7 @@
 		B286F8421FBCD25A00FE73BB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B286F8441FBCD25A00FE73BB /* Atomic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
 		B286F8451FBCD25A00FE73BB /* Receiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Receiver.swift; sourceTree = "<group>"; };
+		B2CBF31B1FCA2F0200D6F497 /* ReceiverTests+Performance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReceiverTests+Performance.swift"; sourceTree = "<group>"; };
 		E8F62DF81FC39178006899AC /* Receiver+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Receiver+Operators.swift"; sourceTree = "<group>"; };
 		E8F62DFA1FC3A129006899AC /* ReceiverTests+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReceiverTests+Operators.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -88,6 +90,7 @@
 			children = (
 				B286F8351FBCD22C00FE73BB /* ReceiverTests.swift */,
 				E8F62DFA1FC3A129006899AC /* ReceiverTests+Operators.swift */,
+				B2CBF31B1FCA2F0200D6F497 /* ReceiverTests+Performance.swift */,
 				B286F8371FBCD22C00FE73BB /* Info.plist */,
 			);
 			path = ReceiverTests;
@@ -230,6 +233,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2CBF31C1FCA2F0200D6F497 /* ReceiverTests+Performance.swift in Sources */,
 				E8F62DFB1FC3A129006899AC /* ReceiverTests+Operators.swift in Sources */,
 				B286F8361FBCD22C00FE73BB /* ReceiverTests.swift in Sources */,
 			);
