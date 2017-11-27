@@ -27,10 +27,10 @@ public class Receiver<Wave>: Receivable {
             let lowerLimit = max(_values.count - elements, 0)
             let indexs = (lowerLimit ..< _values.count)
 
-            indexs.forEach { index in
+            for index in indexs {
                 let value = _values[index]
                 handlers.apply { _handlers in
-                    _handlers.forEach { _handler in
+                    for _handler in _handlers {
                         _handler(value)
                     }
                 }

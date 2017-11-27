@@ -4,7 +4,7 @@ import XCTest
 class ReceiverTests_Performance: XCTestCase {
 
     func test_map_filter_performance() {
-        // at ~`0.213`
+        // at ~`0.192`
         self.measure {
             let (transmitter, receiver) = Receiver<Int>.make()
             let newReceiver = receiver
