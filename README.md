@@ -8,8 +8,6 @@
 [![License MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://opensource.org/licenses/MIT)
 
 
----
-
 1. [Intro](https://github.com/RuiAAPeres/Receiver#intro)
 2. [🌈 Enter `Receiver`! 🌈](https://github.com/RuiAAPeres/Receiver#-enter-receiver-)
 3. [Adding as a Dependency 🚀](https://github.com/RuiAAPeres/Receiver#adding-as-a-dependency-)
@@ -18,7 +16,6 @@
 6. [Opinionated, in what way? 🤓](https://github.com/RuiAAPeres/Receiver#opinionated-in-what-way-)
 7. [Ok, so why would I use this? 🤷‍♀️](https://github.com/RuiAAPeres/Receiver#ok-so-why-would-i-use-this-️)
 
----
 
 ## Intro
 
