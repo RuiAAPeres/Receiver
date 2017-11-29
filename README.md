@@ -10,8 +10,6 @@
 
 ---
 
-## Index
-
 1. [Intro](https://github.com/RuiAAPeres/Receiver#intro)
 2. [🌈 Enter `Receiver`! 🌈](https://github.com/RuiAAPeres/Receiver#-enter-receiver-)
 3. [Adding as a Dependency 🚀](https://github.com/RuiAAPeres/Receiver#adding-as-a-dependency-)
