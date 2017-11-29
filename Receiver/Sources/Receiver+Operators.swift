@@ -1,14 +1,50 @@
 extension Receiver {
-    func map<U>(_ f: @escaping (Wave) -> U) -> Receiver<U> {
+
+    /// Map each value (`Wave`) sent to the `receiver` to a new value (`U`).
+    /// ```
+    ///    let (transmitter, receiver) = Receiver<Int>.make()
+    ///    let integersToStrings = receiver.map(String.init)
+    ///
+    ///    integersToStrings.listen { value in
+    ///        /// value is `"1"`
+    ///    }
+    ///
+    ///    transmitter.broadcast(1)
+    /// ```
+    /// - parameters:
+    ///   - transform: An anonymous function that accepts the current value type
+    ///                (`Wave`) and transforms it to a `U`.
+    ///
+    /// - returns: A `receiver` with the applied transformation.
+    func map<U>(_ transform: @escaping (Wave) -> U) -> Receiver<U> {
         let (transmitter, receiver) = Receiver<U>.make()
         
         self.listen {
-            transmitter.broadcast(f($0))
+            transmitter.broadcast(transform($0))
         }
         
         return receiver
     }
 
+    /// Filters each value (`Wave`) sent to the `receiver` based on the anonymous
+    /// function provided (the predicate).
+    /// ```
+    ///     let (transmitter, receiver) = Receiver<Int>.make()
+    ///     let onlyEvenNumbers = receiver.filter { $0 % 2 == 0}
+    ///
+    ///     onlyEvenNumbers.listen { value in
+    ///     }
+    ///
+    ///     /// Value is not sent to the listener, because `1` is an odd number
+    ///     transmitter.broadcast(1)
+    ///     /// Value is sent to the listener, because `2` is an even number
+    ///     transmitter.broadcast(2)
+    /// ```
+    /// - parameters:
+    ///   - isIncluded: An anonymous function that acts as a predicate.
+    ///                 Only when `true`, the value is forwarded.
+    ///
+    /// - returns: A `receiver` that discards values based on a predicate.
     func filter(_ isIncluded: @escaping (Wave) -> Bool) -> Receiver<Wave> {
         let (transmitter, receiver) = Receiver<Wave>.make()
 
@@ -20,6 +56,21 @@ extension Receiver {
         return receiver
     }
 
+    /// Bundles each value (`Wave`) sent to the `receiver` with the previous value sent.
+    /// ```
+    ///     let (transmitter, receiver) = Receiver<Int>.make()
+    ///     let newReceiver = receiver.withPrevious()
+    ///
+    ///     newReceiver.listen { value in
+    ///          /// `value` == (nil, 1)
+    ///          /// `value` == (1, 2)
+    ///     }
+    ///
+    ///     transmitter.broadcast(1)
+    ///     transmitter.broadcast(2)
+    /// ```
+    ///
+    /// - returns: A `receiver` that pairs the previous value with the current.
     func withPrevious() -> Receiver<(Wave?, Wave)> {
         let (transmitter, receiver) = Receiver<(Wave?, Wave)>.make()
         let values = Atomic<[Wave]>([])
@@ -37,6 +88,24 @@ extension Receiver {
         return receiver
     }
 
+    /// Skips values up to count, forwarding values normally afterwards.
+    /// ```
+    ///     let (transmitter, receiver) = Receiver<Int>.make()
+    ///     let skippedValues = receiver.skip(count: 3)
+    ///
+    ///     newReceiver.listen { value in
+    ///          /// `value` == 4
+    ///     }
+    ///
+    ///     transmitter.broadcast(1)
+    ///     transmitter.broadcast(2)
+    ///     transmitter.broadcast(3)
+    ///     transmitter.broadcast(4)
+    /// ```
+    /// - parameters:
+    ///   - count: The number of values it will skip.
+    ///
+    /// - returns: A `receiver` that skips values up to `count`.
     func skip(count: Int) -> Receiver<Wave> {
         guard count > 0 else { return self }
 
@@ -58,6 +127,26 @@ extension Receiver {
         return receiver
     }
 
+    /// Only forwards values up to `count`, skipping all the values afterwards.
+    /// ```
+    ///     let (transmitter, receiver) = Receiver<Int>.make()
+    ///     let takeValues = receiver.take(count: 3)
+    ///
+    ///     takeValues.listen { value in
+    ///          /// `value` == 1
+    ///          /// `value` == 2
+    ///          /// `value` == 3
+    ///     }
+    ///
+    ///     transmitter.broadcast(1)
+    ///     transmitter.broadcast(2)
+    ///     transmitter.broadcast(3)
+    ///     transmitter.broadcast(4)
+    /// ```
+    /// - parameters:
+    ///   - count: The number of values it will forward.
+    ///
+    /// - returns: A `receiver` that forwards values up to count.
     func take(count: Int) -> Receiver<Wave> {
         let (transmitter, receiver) = Receiver<Wave>.make()
         let counter = Atomic<Int>(count)
@@ -76,6 +165,26 @@ extension Receiver {
 }
 
 extension Receiver where Wave: Equatable {
+    /// Skips consecutive repeated values.
+    /// ```
+    ///     let (transmitter, receiver) = Receiver<Int>.make()
+    ///     let skipRepeatedValues = receiver.skipRepeats()
+    ///
+    ///     skipRepeatedValues.listen { value in
+    ///          /// `value` == 1
+    ///          /// `value` == 2
+    ///          /// `value` == 3
+    ///     }
+    ///
+    ///     transmitter.broadcast(1)
+    ///     transmitter.broadcast(1)
+    ///     transmitter.broadcast(1)
+    ///     transmitter.broadcast(2)
+    ///     transmitter.broadcast(2)
+    ///     transmitter.broadcast(3)
+    /// ```
+    ///
+    /// - returns: A `receiver` that skips repeated consecutive values.
     func skipRepeats() -> Receiver<Wave> {
         let (transmitter, receiver) = Receiver<Wave>.make()
         let values = Atomic<[Wave]>([])
