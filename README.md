@@ -12,9 +12,10 @@
 2. [🌈 Enter `Receiver`! 🌈](https://github.com/RuiAAPeres/Receiver#-enter-receiver-)
 3. [Adding as a Dependency 🚀](https://github.com/RuiAAPeres/Receiver#adding-as-a-dependency-)
 4. [Basic usage 😎](https://github.com/RuiAAPeres/Receiver#basic-usage-)
-5. [Strategies](https://github.com/RuiAAPeres/Receiver#strategies)
-6. [Opinionated, in what way? 🤓](https://github.com/RuiAAPeres/Receiver#opinionated-in-what-way-)
-7. [Ok, so why would I use this? 🤷‍♀️](https://github.com/RuiAAPeres/Receiver#ok-so-why-would-i-use-this-️)
+5. [Operators 🤖](https://github.com/RuiAAPeres/Receiver#operators-)
+6. [Strategies](https://github.com/RuiAAPeres/Receiver#strategies)
+7. [Opinionated, in what way? 🤓](https://github.com/RuiAAPeres/Receiver#opinionated-in-what-way-)
+8. [Ok, so why would I use this? 🤷‍♀️](https://github.com/RuiAAPeres/Receiver#ok-so-why-would-i-use-this-️)
 
 
 ## Intro
@@ -91,6 +92,17 @@ This is how you send events:
 ```swift
 transmitter.broadcast(1)
 ```
+
+## Operators 🤖
+
+Receiver provides a set of operators akin to ReactiveSwift:
+
+* `map`
+* `filter`
+* `withPrevious`
+* `skip`
+* `take`
+* `skipRepeats`
 
 ## Strategies
 
