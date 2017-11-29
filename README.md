@@ -10,6 +10,20 @@
 
 ---
 
+## Index
+
+1. [Intro](https://github.com/RuiAAPeres/Receiver#intro)
+2. [🌈 Enter `Receiver`! 🌈](https://github.com/RuiAAPeres/Receiver#-enter-receiver-)
+3. [Adding as a Dependency 🚀](https://github.com/RuiAAPeres/Receiver#adding-as-a-dependency-)
+4. [Show me the codez! 😸](https://github.com/RuiAAPeres/Receiver#show-me-the-codez-)
+5. [Strategies](https://github.com/RuiAAPeres/Receiver#strategies)
+6. [Opinionated, in what way? 🤓](https://github.com/RuiAAPeres/Receiver#opinionated-in-what-way-)
+7. [Ok, so why would I use this? 🤷‍♀️](https://github.com/RuiAAPeres/Receiver#ok-so-why-would-i-use-this-️)
+
+---
+
+## Intro
+
 As a [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) user myself, most of time, it's difficult to convince someone to just simply start using it. The reality, for better or worse, is that most projects/teams are not ready to adopt it:
 
 1. The intrinsic problems of adding a big dependency.
