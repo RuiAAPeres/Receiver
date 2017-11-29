@@ -11,7 +11,7 @@
 1. [Intro](https://github.com/RuiAAPeres/Receiver#intro)
 2. [🌈 Enter `Receiver`! 🌈](https://github.com/RuiAAPeres/Receiver#-enter-receiver-)
 3. [Adding as a Dependency 🚀](https://github.com/RuiAAPeres/Receiver#adding-as-a-dependency-)
-4. [Show me the codez! 😸](https://github.com/RuiAAPeres/Receiver#show-me-the-codez-)
+4. [Basic usage 😎](https://github.com/RuiAAPeres/Receiver#basic-usage-)
 5. [Strategies](https://github.com/RuiAAPeres/Receiver#strategies)
 6. [Opinionated, in what way? 🤓](https://github.com/RuiAAPeres/Receiver#opinionated-in-what-way-)
 7. [Ok, so why would I use this? 🤷‍♀️](https://github.com/RuiAAPeres/Receiver#ok-so-why-would-i-use-this-️)
@@ -53,7 +53,7 @@ If you use CocoaPods to manage your dependencies, simply add `Receiver` to your 
 pod 'Receiver', '~> 0.0.1'
 ```
 
-## Show me the codez! 😸
+## Basic usage 😎
 
 Let's begin with the basics. **There are three methods in total**. Yup, that's right.
 
