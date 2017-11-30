@@ -143,4 +143,20 @@ class ReceiverTests_Operators: XCTestCase {
 
         XCTAssertTrue(called == 0)
     }
+
+    func test_skipNil() {
+        let (transmitter, receiver) = Receiver<Int?>.make()
+        let newReceiver = receiver.skipNil()
+        var called = 0
+
+        newReceiver.listen { wave in
+            called = called + 1
+        }
+
+        transmitter.broadcast(1)
+        transmitter.broadcast(nil)
+        transmitter.broadcast(1)
+
+        XCTAssertTrue(called == 2)
+    }
 }

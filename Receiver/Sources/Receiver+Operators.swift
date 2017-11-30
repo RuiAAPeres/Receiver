@@ -212,4 +212,38 @@ extension Receiver where Wave: Equatable {
     }
 }
 
+extension Receiver where Wave: OptionalProtocol {
+    /// Skips nil values, forwarding only non-nil values
+    /// ```
+    ///     let (transmitter, receiver) = Receiver<Int?>.make()
+    ///     let skipNilValues = receiver.skipNil()
+    ///
+    ///     skipNilValues.listen { value in
+    ///          /// `value` == 1
+    ///          /// `value` == 2
+    ///          /// `value` == 3
+    ///     }
+    ///
+    ///     transmitter.broadcast(1)
+    ///     transmitter.broadcast(1?)
+    ///     transmitter.broadcast(2?)
+    ///     transmitter.broadcast(2)
+    ///     transmitter.broadcast(3)
+    /// ```
+    ///
+    /// - returns: A `receiver` that skips nil values
+    public func skipNil() -> Receiver<Wave.Wrapped> {
+        let (transmitter, receiver) = Receiver<Wave.Wrapped>.make()
 
+        self.listen { newValue in
+            switch newValue.optional {
+            case let .some(_newValue):
+                transmitter.broadcast(_newValue)
+            case .none:
+                return
+            }
+        }
+
+        return receiver
+    }
+}

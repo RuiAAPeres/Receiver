@@ -100,9 +100,10 @@ Receiver provides a set of operators akin to ReactiveSwift:
 * `map`
 * `filter`
 * `withPrevious`
-* `skip`
 * `take`
+* `skip`
 * `skipRepeats`
+* `skipNil`
 
 ## Strategies
 
