@@ -19,7 +19,7 @@ class ReceiverTests_Operators: XCTestCase {
 
     func test_filter() {
         let (transmitter, receiver) = Receiver<Int>.make()
-        let newReceiver = receiver.filter { $0 % 2 == 0}
+        let newReceiver = receiver.filter { $0 % 2 == 0 }
         var called = 0
 
         newReceiver.listen { wave in

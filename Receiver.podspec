@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Receiver"
-  s.version      = "0.0.1"
+  s.version      = "0.0.4"
   s.summary      = "Swift µframework implementing the Observer pattern"
   s.description  = <<-DESC
   Receiver is nothing more than an opinionated micro framework implementation of the Observer pattern.
