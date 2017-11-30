@@ -1,5 +1,4 @@
 extension Receiver {
-
     /// Map each value (`Wave`) sent to the `receiver` to a new value (`U`).
     /// ```
     ///    let (transmitter, receiver) = Receiver<Int>.make()
@@ -174,6 +173,7 @@ extension Receiver where Wave: Equatable {
     ///          /// `value` == 1
     ///          /// `value` == 2
     ///          /// `value` == 3
+    ///          /// `value` == 1
     ///     }
     ///
     ///     transmitter.broadcast(1)
@@ -182,6 +182,7 @@ extension Receiver where Wave: Equatable {
     ///     transmitter.broadcast(2)
     ///     transmitter.broadcast(2)
     ///     transmitter.broadcast(3)
+    ///     transmitter.broadcast(1)
     /// ```
     ///
     /// - returns: A `receiver` that skips repeated consecutive values.
@@ -212,6 +213,46 @@ extension Receiver where Wave: Equatable {
     }
 }
 
+extension Receiver where Wave: Hashable {
+    /// Only forwards unique values
+    /// ```
+    ///     let (transmitter, receiver) = Receiver<Int>.make()
+    ///     let uniqueValues = receiver.uniqueValues()
+    ///
+    ///     uniqueValues.listen { value in
+    ///          /// `value` == 1
+    ///          /// `value` == 2
+    ///          /// `value` == 3
+    ///     }
+    ///
+    ///     transmitter.broadcast(1)
+    ///     transmitter.broadcast(2)
+    ///     transmitter.broadcast(1)
+    ///     transmitter.broadcast(1)
+    ///     transmitter.broadcast(2)
+    ///     transmitter.broadcast(3)
+    ///     transmitter.broadcast(1)
+    ///     transmitter.broadcast(2)
+    /// ```
+    ///
+    /// - returns: A `receiver` that only forwards unique events.
+    public func uniqueValues() -> Receiver<Wave> {
+        let (transmitter, receiver) = Receiver<Wave>.make()
+        let values = Atomic<Set<Wave>>([])
+
+        self.listen { newValue in
+            values.apply { _values in
+                guard _values.contains(newValue) == false else { return }
+
+                _values.insert(newValue)
+                transmitter.broadcast(newValue)
+            }
+        }
+
+        return receiver
+    }
+}
+
 extension Receiver where Wave: OptionalProtocol {
     /// Skips nil values, forwarding only non-nil values
     /// ```
@@ -231,7 +272,7 @@ extension Receiver where Wave: OptionalProtocol {
     ///     transmitter.broadcast(3)
     /// ```
     ///
-    /// - returns: A `receiver` that skips nil values
+    /// - returns: A `receiver` that skips nil values.
     public func skipNil() -> Receiver<Wave.Wrapped> {
         let (transmitter, receiver) = Receiver<Wave.Wrapped>.make()
 

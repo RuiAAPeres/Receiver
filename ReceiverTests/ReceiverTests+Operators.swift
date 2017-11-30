@@ -159,4 +159,24 @@ class ReceiverTests_Operators: XCTestCase {
 
         XCTAssertTrue(called == 2)
     }
+
+    func test_uniqueValues() {
+        let (transmitter, receiver) = Receiver<Int>.make()
+        let newReceiver = receiver.uniqueValues()
+        var called = 0
+
+        newReceiver.listen { wave in
+            called = called + 1
+        }
+
+        transmitter.broadcast(1)
+        transmitter.broadcast(2)
+        transmitter.broadcast(1)
+        transmitter.broadcast(3)
+        transmitter.broadcast(1)
+        transmitter.broadcast(3)
+        transmitter.broadcast(2)
+
+        XCTAssertTrue(called == 3)
+    }
 }
