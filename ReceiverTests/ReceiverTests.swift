@@ -156,4 +156,37 @@ class ReceiverTests: XCTestCase {
         XCTAssertNotNil(outterTransmitter)
         XCTAssertNotNil(outterReceiver)
     }
+
+    func test_disposable() {
+        let (transmitter, receiver) = Receiver<Int>.make()
+        var called = 0
+
+        let disposable = receiver.listen { wave in
+            called = called + 1
+        }
+
+        disposable.dispose()
+        transmitter.broadcast(1)
+        XCTAssertTrue(called == 0)
+    }
+
+    func test_disposable_MultipleListeners() {
+        let (transmitter, receiver) = Receiver<Int>.make()
+        var value = 0
+
+        let disposable1 = receiver.listen { wave in
+            value = 1
+        }
+
+        disposable1.dispose()
+        transmitter.broadcast(1)
+        XCTAssertTrue(value == 0)
+
+        receiver.listen { wave in
+            value = 2
+        }
+
+        transmitter.broadcast(1)
+        XCTAssertTrue(value == 2)
+    }
 }
