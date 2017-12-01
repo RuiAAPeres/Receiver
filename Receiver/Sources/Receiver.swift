@@ -68,10 +68,9 @@ public class Receiver<Wave> {
 
     private let values = Atomic<[Wave]>([])
     private let strategy: Strategy
-    private let handlers: Atomic<[Handler]>
+    private let handlers = Atomic<[Int:Handler]>([:])
 
     private init(strategy: Strategy) {
-        self.handlers = Atomic<[Handler]>([])
         self.strategy = strategy
     }
 
@@ -84,7 +83,7 @@ public class Receiver<Wave> {
             for index in indexs {
                 let value = _values[index]
                 handlers.apply { _handlers in
-                    for _handler in _handlers {
+                    for _handler in _handlers.values {
                         _handler(value)
                     }
                 }
@@ -104,10 +103,14 @@ public class Receiver<Wave> {
     /// - parameters:
     ///   - handle: An anonymous function that gets called every time a
     ///             a new value is sent.
-    public func listen(to handle: @escaping (Wave) -> Void) {
+    /// - returns: A reference to a disposable
+    @discardableResult public func listen(to handle: @escaping (Wave) -> Void) -> Disposable {
+        var _key: Int!
         handlers.apply { _handlers in
-            _handlers.append(handle)
+            _key = (_handlers.keys.map { $0.hashValue }.max() ?? -1) + 1
+            _handlers[_key] = handle
         }
+
         switch strategy {
         case .cold:
             broadcast(elements: Int.max)
@@ -115,6 +118,12 @@ public class Receiver<Wave> {
             broadcast(elements: limit)
         case .hot:
             broadcast(elements: 0)
+        }
+
+        return Disposable {[weak self] in
+            self?.handlers.apply { _handlers in
+                _handlers[_key] = nil
+            }
         }
     }
 
@@ -132,23 +141,23 @@ public class Receiver<Wave> {
     }
 }
 
-public extension Receiver {
+extension Receiver {
     /// Enum that represents the Receiver's strategies
-    enum Strategy {
+    public enum Strategy {
         case cold
         case warm(upTo: Int)
         case hot
     }
 }
 
-public extension Receiver {
+extension Receiver {
     /// The write only implementation of the Observer pattern.
     /// Used to broadcast values (`Wave`) that will be observed by the `receiver`
     /// and forward to all its listeners.
     ///
     /// Note: Keep in mind that the `transmitter` will hold strongly
     ///       to its `receiver`.
-    struct Transmitter {
+    public struct Transmitter {
         private let receiver: Receiver
 
         internal init(_ receiver: Receiver) {
@@ -161,6 +170,28 @@ public extension Receiver {
         ///   - wave: The value to be forward
         public func broadcast(_ wave: Wave) {
             receiver.append(value: wave)
+        }
+    }
+}
+
+extension Receiver {
+    /// Used to remove the handler from being called again (aka dispose of),
+    /// when you invoke `receiver.listen(handler)`.
+    /// Example:
+    ///
+    /// Your Receiver is shared across multiple screens (or entities) and one
+    /// of those, stops existing. In this scenario,
+    /// you would call `diposable.dispose()` at `deinit` time.
+    public class Disposable {
+        private let cleanUp: () -> Void
+
+        internal init(_ cleanUp: @escaping () -> Void) {
+            self.cleanUp = cleanUp
+        }
+
+        /// Used to dispose of the handler passed to the receiver.
+        public func dispose() {
+            cleanUp()
         }
     }
 }
