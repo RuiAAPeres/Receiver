@@ -97,13 +97,14 @@ transmitter.broadcast(1)
 
 Receiver provides a set of operators akin to ReactiveSwift:
 
-* `map`
-* `filter`
-* `withPrevious`
-* `take`
-* `skip`
-* `skipRepeats`
-* `skipNil`
+* [`map`](https://github.com/RuiAAPeres/Receiver/blob/master/Receiver/Sources/Receiver%2BOperators.swift#L2#L26)
+* [`filter`](https://github.com/RuiAAPeres/Receiver/blob/master/Receiver/Sources/Receiver%2BOperators.swift#L28#L56)
+* [`withPrevious`](https://github.com/RuiAAPeres/Receiver/blob/master/Receiver/Sources/Receiver%2BOperators.swift#L58#L88)
+* [`take`](https://github.com/RuiAAPeres/Receiver/blob/master/Receiver/Sources/Receiver%2BOperators.swift#L129#L164)
+* [`skip`](https://github.com/RuiAAPeres/Receiver/blob/master/Receiver/Sources/Receiver%2BOperators.swift#L90#L127)
+* [`skipRepeats`](https://github.com/RuiAAPeres/Receiver/blob/master/Receiver/Sources/Receiver%2BOperators.swift#L167#L214)
+* [`skipNil`](https://github.com/RuiAAPeres/Receiver/blob/master/Receiver/Sources/Receiver%2BOperators.swift#L257#L290)
+* [`uniqueValues`](https://github.com/RuiAAPeres/Receiver/blob/master/Receiver/Sources/Receiver%2BOperators.swift#L217#L254)
 
 ## Strategies
 
