@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3AB58B431FD9A15E00DDF2BC /* Disposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB58B421FD9A15E00DDF2BC /* Disposable.swift */; };
 		B286F8311FBCD22C00FE73BB /* Receiver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B286F8271FBCD22B00FE73BB /* Receiver.framework */; };
 		B286F8361FBCD22C00FE73BB /* ReceiverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B286F8351FBCD22C00FE73BB /* ReceiverTests.swift */; };
 		B286F8471FBCD25A00FE73BB /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B286F8441FBCD25A00FE73BB /* Atomic.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3AB58B421FD9A15E00DDF2BC /* Disposable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disposable.swift; sourceTree = "<group>"; };
 		B286F8271FBCD22B00FE73BB /* Receiver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Receiver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B286F8301FBCD22C00FE73BB /* ReceiverTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReceiverTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B286F8351FBCD22C00FE73BB /* ReceiverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverTests.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				B286F8451FBCD25A00FE73BB /* Receiver.swift */,
 				E8F62DF81FC39178006899AC /* Receiver+Operators.swift */,
 				B28B1E7B1FD0448D009ACCCB /* Optiona+Extensions.swift */,
+				3AB58B421FD9A15E00DDF2BC /* Disposable.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 			files = (
 				B28B1E7C1FD0448D009ACCCB /* Optiona+Extensions.swift in Sources */,
 				E8F62DF91FC39178006899AC /* Receiver+Operators.swift in Sources */,
+				3AB58B431FD9A15E00DDF2BC /* Disposable.swift in Sources */,
 				B286F8481FBCD25A00FE73BB /* Receiver.swift in Sources */,
 				B286F8471FBCD25A00FE73BB /* Atomic.swift in Sources */,
 			);
