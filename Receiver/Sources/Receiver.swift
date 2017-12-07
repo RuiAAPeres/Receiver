@@ -221,20 +221,24 @@ public class Disposable {
 /// You can add multiple disposable to the DisposeBag.
 public class DisposeBag {
     /// Keep a reference to all Disposable instances -> this is the actual bag
-    private var disposables = [Disposable]()
+    private var disposables = Atomic<[Disposable]>([])
     
     /// To be able to create a bag
     public init() {}
     
     /// Called by a Disposable instance
     fileprivate func insert(_ disposable: Disposable) {
-        disposables.append(disposable)
+        disposables.apply { _disposables in
+            _disposables.append(disposable)
+        }
     }
     
     /// Clean everything when the bag is deinited by calling dispose()
     /// on all Disposable instances
     deinit {
-        disposables.forEach { $0.dispose() }
+        disposables.apply { _disposables in
+            _disposables.forEach { $0.dispose() }
+        }
     }
 }
 
