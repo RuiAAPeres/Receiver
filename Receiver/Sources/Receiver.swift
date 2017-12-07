@@ -221,7 +221,7 @@ public class Disposable {
 /// You can add multiple disposable to the DisposeBag.
 public class DisposeBag {
     /// Keep a reference to all Disposable instances -> this is the actual bag
-    private var disposables = Atomic<[Disposable]>([])
+    private let disposables = Atomic<[Disposable]>([])
     
     /// To be able to create a bag
     public init() {}
