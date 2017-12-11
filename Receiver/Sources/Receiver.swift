@@ -173,25 +173,3 @@ extension Receiver {
         }
     }
 }
-
-extension Receiver {
-    /// Used to remove the handler from being called again (aka dispose of),
-    /// when you invoke `receiver.listen(handler)`.
-    /// Example:
-    ///
-    /// Your Receiver is shared across multiple screens (or entities) and one
-    /// of those, stops existing. In this scenario,
-    /// you would call `diposable.dispose()` at `deinit` time.
-    public class Disposable {
-        private let cleanUp: () -> Void
-
-        internal init(_ cleanUp: @escaping () -> Void) {
-            self.cleanUp = cleanUp
-        }
-
-        /// Used to dispose of the handler passed to the receiver.
-        public func dispose() {
-            cleanUp()
-        }
-    }
-}

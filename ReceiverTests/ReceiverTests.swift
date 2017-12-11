@@ -189,4 +189,46 @@ class ReceiverTests: XCTestCase {
         transmitter.broadcast(1)
         XCTAssertTrue(value == 2)
     }
+    
+    func test_disposeBag() {
+        let (transmitter, receiver) = Receiver<Int>.make()
+        var called = 0
+        
+        var disposeBag: DisposeBag? = DisposeBag()
+        
+        receiver.listen { wave in
+            called = called + 1
+        }.disposed(by: disposeBag!)
+        
+        disposeBag = nil
+        transmitter.broadcast(1)
+        XCTAssertTrue(called == 0)
+    }
+    
+    func test_disposeBag_multipleListeners() {
+        let (transmitter, receiver) = Receiver<Int>.make()
+        var called = 0
+        
+        var disposeBag: DisposeBag? = DisposeBag()
+        
+        receiver.listen { wave in
+            called = called + 1
+            }.disposed(by: disposeBag!)
+        
+        receiver.listen { wave in
+            called = called + 1
+            }.disposed(by: disposeBag!)
+        
+        receiver.listen { wave in
+            called = called + 1
+            }.disposed(by: disposeBag!)
+        
+        receiver.listen { wave in
+            called = called + 1
+            }.disposed(by: disposeBag!)
+        
+        disposeBag = nil // this forces the DisposeBag to be deinit()
+        transmitter.broadcast(1)
+        XCTAssertTrue(called == 0)
+    }
 }
