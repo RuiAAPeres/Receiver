@@ -4,7 +4,7 @@
 <a href="https://github.com/RuiAAPeres/Receiver#cocoapods"><img src="https://img.shields.io/cocoapods/v/Receiver.svg?style=flat"></a>
 [![codecov](https://codecov.io/gh/RuiAAPEres/Receiver/branch/master/graph/badge.svg)](https://codecov.io/gh/RuiAAPeres/Receiver)
 [![Build Status](https://travis-ci.org/RuiAAPeres/Receiver.svg?branch=master)](https://travis-ci.org/RuiAAPeres/Receiver)
-[![Swift 3.0](https://img.shields.io/badge/Swift-4.0-orange.svg?style=flat)](https://developer.apple.com/swift/)
+[![Swift 4.1](https://img.shields.io/badge/Swift-4.1-orange.svg?style=flat)](https://developer.apple.com/swift/)
 [![License MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://opensource.org/licenses/MIT)
 
 
