@@ -18,8 +18,7 @@ private class UnfairLock {
     }
 
     deinit {
-        _lock.deinitialize()
-        _lock.deallocate(capacity: 1)
+        _lock.deallocate()
     }
 }
 
