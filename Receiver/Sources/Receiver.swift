@@ -106,11 +106,10 @@ public class Receiver<Wave> {
     /// - returns: A reference to a disposable
     @discardableResult public func listen(to handle: @escaping (Wave) -> Void) -> Disposable {
         var _key: Int!
-        handlers.apply { _handlers in
-            _key = (_handlers.keys.map { $0.hashValue }.max() ?? -1) + 1
-            _handlers[_key] = handle
-        }
-
+            handlers.apply { _handlers in
+                _key = _handlers.count
+                _handlers[_key] = handle
+            }
         switch strategy {
         case .cold:
             broadcast(elements: Int.max)

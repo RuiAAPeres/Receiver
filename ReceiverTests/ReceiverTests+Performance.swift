@@ -18,4 +18,26 @@ class ReceiverTests_Performance: XCTestCase {
             }
         }
     }
+    
+    func test_listen_performance() {
+        self.measure {
+            let numberOfListeners = 200000
+            let (transmitter, receiver) = Receiver<Int>.make()
+            var called = 0
+            
+            for _ in 1...numberOfListeners {
+                receiver.listen { wave in
+                    XCTAssertTrue(wave == 1)
+                    called = called + 1
+                }
+            }
+            
+            transmitter.broadcast(1)
+            XCTAssertEqual(called, numberOfListeners)
+
+            transmitter.broadcast(1)
+            XCTAssertEqual(called, numberOfListeners*2)
+        }
+    }
+
 }
