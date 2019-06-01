@@ -107,7 +107,10 @@ public class Receiver<Wave> {
     @discardableResult public func listen(to handle: @escaping (Wave) -> Void) -> Disposable {
         var _key: Int!
             handlers.apply { _handlers in
-                _key = _handlers.count
+                _key = Int.random(in: Int.min...Int.max)
+                while _handlers[_key] != nil {
+                    _key = Int.random(in: Int.min...Int.max)
+                }
                 _handlers[_key] = handle
             }
         switch strategy {
