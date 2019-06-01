@@ -179,4 +179,26 @@ class ReceiverTests_Operators: XCTestCase {
 
         XCTAssertTrue(called == 3)
     }
+    
+    func test_combine() {
+        let (intTransmitter, intReceiver) = Receiver<Int>.make()
+        let (stringTransmitter, stringReceiver) = Receiver<String>.make()
+        let newReceiver = combine(intReceiver, stringReceiver)
+        let expectedValues = [(1,"1"),(2,"1"),(2,"2")]
+        var values = [(Int,String)]()
+
+        newReceiver.listen { wave in
+            values.append(wave)
+        }
+        
+        intTransmitter.broadcast(1)
+        stringTransmitter.broadcast("1")
+        intTransmitter.broadcast(2)
+        stringTransmitter.broadcast("2")
+        
+        XCTAssertEqual(values.map{$0.0}, expectedValues.map{$0.0})
+        XCTAssertEqual(values.map{$0.1}, expectedValues.map{$0.1})
+
+    }
+
 }

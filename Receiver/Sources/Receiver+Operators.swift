@@ -288,3 +288,60 @@ extension Receiver where Wave: OptionalProtocol {
         return receiver
     }
 }
+
+/// Combines a receiver of `A` and a reveiver of `B` to produce a receiver of (A,B)
+/// ```
+///     let (intTransmitter, intReceiver) = Receiver<Int>.make()
+///     let (stringTransmitter, stringReceiver) = Receiver<String>.make()
+///
+///     let intAndStringReceiver = combine(intReceiver,stringReceiver)
+///     }
+///
+///     intAndStringReceiver.listen { value in
+///          /// `value` == (1,"1")
+///          /// `value` == (2,"1")
+///          /// `value` == (2,"2")
+///     }
+///     /// Value is not sent yet since we do not have a value from stringReceiver
+///     intTransmitter.broadcast(1)
+///     /// Value is sent to the listener now as (1,"1")
+///     stringTransmitter.broadcast("1")
+///     /// Value is sent to the listener now as (2,"2")
+///     intTransmitter.broadcast(2)
+///     /// Value is sent to the listener now as (2,"2")
+///     stringTransmitter.broadcast("2")
+/// ```
+/// - parameters:
+///   - ra: A receiver of type Receiver<A>
+///   - rb: A receiver of type Receiver<B>
+///
+/// - returns: A `receiver` that produces values of <(A,B)> for every value emitted from either
+public func combine<A,B>(_ ra: Receiver<A>, _ rb: Receiver<B>) -> Receiver<(A,B)> {
+    let (transmitter, receiver) = Receiver<(A?,B?)>.make()
+    let ab = Atomic<(A?,B?)>( (nil,nil) )
+    
+    ra.listen { a in
+        ab.apply {
+            $0.0 = a
+            transmitter.broadcast($0)
+            }
+        }
+    
+    rb.listen { b in
+        ab.apply {
+            $0.1 = b
+            transmitter.broadcast($0)
+        }
+    }
+    
+    let newReceiver = receiver.map { (ab) -> (A,B)? in
+        if let next = ab as? (A,B) {
+            return next
+        } else {
+            return nil
+        }
+    }.skipNil()
+
+    return newReceiver
+
+}
