@@ -68,7 +68,8 @@ public class Receiver<Wave> {
 
     private let values = Atomic<[Wave]>([])
     private let strategy: Strategy
-    private let handlers = Atomic<[Int:Handler]>([:])
+    private let handlers = Atomic<[UInt64:Handler]>([:])
+    private var nextKey: UInt64 = 0
 
     private init(strategy: Strategy) {
         self.strategy = strategy
@@ -105,13 +106,11 @@ public class Receiver<Wave> {
     ///             a new value is sent.
     /// - returns: A reference to a disposable
     @discardableResult public func listen(to handle: @escaping (Wave) -> Void) -> Disposable {
-        var _key: Int!
+        var _key: UInt64!
             handlers.apply { _handlers in
-                _key = Int.random(in: Int.min...Int.max)
-                while _handlers[_key] != nil {
-                    _key = Int.random(in: Int.min...Int.max)
-                }
+                _key = nextKey
                 _handlers[_key] = handle
+                nextKey = nextKey &+ 1
             }
         switch strategy {
         case .cold:
